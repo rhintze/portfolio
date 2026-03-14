@@ -1,0 +1,54 @@
+.layout {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Background - full viewport, fixed */
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--color-bg);
+}
+
+.backgroundImage {
+  object-fit: cover;
+}
+
+/*
+  Gradient overlay — multiply blend so the image
+  reads as deep red/black. Most of the viewport
+  ends up near-black; only the image area gets the
+  warm tint.
+*/
+.gradientOverlay {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-hero);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Content layer - stacks above background */
+.contentLayer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: var(--padding-page);
+  gap: var(--gap-section);
+}
+
+/* Home: push main down so eyes show above frosted blocks */
+.contentLayerHome .main {
+  padding-top: min(25vh, 200px);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-section);
+  width: 100%;
+}

@@ -1,0 +1,47 @@
+.name {
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: -0.352px;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--color-text);
+}
+
+.tagline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tagline span {
+  font-weight: 300;
+  font-size: 20px;
+  letter-spacing: -0.22px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.taglineDot {
+  width: 4px;
+  height: 4px;
+  background: var(--color-text-muted);
+  border-radius: 50%;
+}
+
+.body {
+  font-weight: 300;
+  font-size: 20px;
+  letter-spacing: -0.22px;
+  line-height: 1.5;
+  margin: 0 0 1em;
+  color: var(--color-text);
+}
+
+.body:last-child {
+  margin-bottom: 0;
+}
+
+.body strong {
+  font-weight: 600;
+}

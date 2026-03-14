@@ -1,0 +1,54 @@
+.block {
+  width: 100%;
+}
+
+.glass {
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  background: var(--gradient-glass);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  animation: glassSubtle 8s ease-in-out infinite alternate;
+}
+
+@keyframes glassSubtle {
+  from {
+    background: linear-gradient(
+      130deg,
+      rgba(77, 11, 0, 0.22) 0%,
+      rgba(208, 17, 0, 0.18) 35%,
+      rgba(240, 83, 4, 0.18) 65%,
+      rgba(255, 193, 139, 0.15) 100%
+    );
+  }
+  to {
+    background: linear-gradient(
+      145deg,
+      rgba(77, 11, 0, 0.2) 0%,
+      rgba(208, 17, 0, 0.22) 35%,
+      rgba(240, 83, 4, 0.2) 65%,
+      rgba(255, 193, 139, 0.18) 100%
+    );
+  }
+}
+
+.inner {
+  padding: var(--padding-block);
+  max-width: var(--measure);
+  width: 100%;
+}
+
+/* All alignments share the same left margin for consistent text edge */
+.alignStart .inner {
+  text-align: left;
+}
+
+.alignCenter .inner {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.alignEnd .inner {
+  text-align: left;
+}
