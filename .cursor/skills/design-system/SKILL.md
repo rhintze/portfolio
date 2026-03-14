@@ -29,8 +29,8 @@ spacing, or font stacks. Always reference tokens.
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--color-card-bg` | `rgba(18,18,18,0.92)` | Dark opaque card resting state |
-| `--color-card-bg-hover` | `rgba(24,24,24,0.95)` | Card hover state |
+| `--color-card-bg` | `rgba(18,18,18,0.35)` | Dark frosted card resting state |
+| `--color-card-bg-hover` | `rgba(24,24,24,0.45)` | Card hover state |
 | `--color-glow` | `rgba(240,83,4,0.12)` | Subtle orange glow on hover |
 | `--color-glow-strong` | `rgba(240,83,4,0.25)` | Stronger glow on active/press |
 
@@ -45,18 +45,18 @@ spacing, or font stacks. Always reference tokens.
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--radius-pill` | `999px` | Header, footer, nav pills, tags |
-| `--radius-xl` | `28px` | Glass panels (ContentBlock) |
-| `--radius-lg` | `20px` | Interactive cards, images |
-| `--radius-md` | `12px` | Mobile nav links, small buttons |
+| `--radius-pill` | `999px` | Header, footer, nav pills (desktop + mobile), burger button |
+| `--radius-xl` | `28px` | Glass panels, interactive cards, screenshot containers |
+| `--radius-lg` | `20px` | Images, screenshot frames |
+| `--radius-md` | `12px` | Small buttons |
 | `--radius-sm` | `6px` | Tags, small badges |
 
 ### Spacing
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--gap-section` | `8px` | Between ContentBlocks |
-| `--gap-card` | `8px` | Between cards inside a container |
+| `--gap-section` | `8px` | Between ContentBlocks and page sections |
+| `--gap-card` | `8px` | Between cards inside a grid |
 | `--padding-page` | `12px` | Page edge padding |
 | `--padding-block` | `36px` | Case study section padding |
 | `--padding-main-x` | `4px` | Main horizontal padding |
@@ -70,40 +70,63 @@ spacing, or font stacks. Always reference tokens.
 **Weights:** 300, 400, 500, 600, 700
 **Variable:** `--font-ibm-plex-mono`
 
-| Role | Size | Weight | Tracking |
-|------|------|--------|----------|
-| Display / Name | 24px | 700 | -0.264px |
-| Heading | 20px | 700 | -0.22px |
-| Section title | 18px | 700 | -0.198px |
-| Card title | 16px | 700 | -0.176px |
-| Body | 16px | 300 | -0.176px |
-| Body small | 14px | 300 | -0.154px |
-| Caption / Nav | 12px | 300 | -0.132px |
-| Micro label | 10–11px | 500 | 0.5px |
+### Type Scale
+
+| Role | Size | Weight | Tracking | Usage |
+|------|------|--------|----------|-------|
+| Display | 40px (28px mobile) | 700 | -0.44px | "What I'm known for" items |
+| Page title | 24px | 700 | -0.264px | Hero headline, uppercase |
+| Section title | 14px | 700 | -0.154px | Section headings, uppercase |
+| Card title | 16px | 700 | -0.176px | Card headings, experience roles |
+| Body | 14px | 300 | -0.154px | Paragraphs, principles |
+| Caption | 12px | 300 | -0.132px | Nav, metadata, experience details |
+| Label | 10px | 500 | 0.5px | Card labels, metadata dots, uppercase |
+
+## Container Backgrounds
+
+Two distinct surface treatments:
+
+**Read-only containers** = Red glass gradient (`--gradient-glass`):
+- `backdrop-filter: blur(var(--blur-glass))`
+- `background-image: var(--gradient-glass)` with shimmer animation
+- Used for: ContentBlock, glass sections, metric cards
+
+**Clickable containers** = Dark frosted (`--color-card-bg`):
+- `backdrop-filter: blur(var(--blur-glass))`
+- `background: var(--color-card-bg)` (semi-transparent dark gray)
+- Used for: navigation cards, case study cards, screenshot containers
+
+Both use the same blur intensity — only the background color differs.
 
 ## Interactive Pattern
 
-**Static content** = red glass panels (`--gradient-glass`), no border, shimmer.
-
-**Interactive content** = dark opaque cards inside glass panels:
+**Interactive content** = dark frosted cards with backdrop-blur:
 - Resting: `background: var(--color-card-bg)`, `border: 1.5px solid transparent`
-- Hover: `border-color: var(--color-accent)`, subtle glow, 2px lift, image zoom 1.03×
+- Hover: `border-color: var(--color-accent)`, subtle glow, 2px lift
 - Active: `scale(0.99)`, stronger glow
 - Focus-visible: 2px orange outline with 2px offset
 - CTA/arrow: shifts right 4px, color changes to `--color-accent`
 
+### Card Content Groups
+
+Cards use three semantic content groups with clear spacing:
+1. **Label** (top) — 10px uppercase label, 16px margin-bottom
+2. **Body** (middle) — Title + description grouped tightly (4px gap)
+3. **Action** (bottom) — Arrow/CTA with 28px margin-top
+
+### Card Image Inset
+
+Card thumbnails are inset 4px from the card edge with a calculated inner
+radius: `margin: 4px 4px 0`, `border-radius: 24px` (28px outer - 4px gap).
+
 ## Glass Block Rules
 
-**Maximum 2 glass ContentBlocks per page.**
+There is **no maximum** on the number of glass ContentBlocks or sections
+per page. Each section type uses its appropriate surface treatment.
 
-- **Block 1 (required):** Title, subtitle, and minimal metadata (date, company,
-  tags). Compact — no body copy, no cards, no grow.
-- **Block 2 (optional):** Interactive content (card grids, lists). Uses `grow`
-  to fill remaining space.
-
-Pages that need immersive content (Creative Lab) break out of ContentBlock
-entirely — images and gallery sections render directly in the page flow
-without glass wrappers.
+Pages use ContentBlock for header/hero text, then render additional sections
+(glass sections, card grids, screenshot containers) directly in the page
+flow outside of ContentBlock.
 
 ## Component Patterns
 
@@ -111,33 +134,53 @@ without glass wrappers.
 Glass container. Props: `align`, `grow`. When `grow=true`, inner max-width
 is removed so cards can fill the width. Padding: 28px 32px desktop, 24px mobile.
 
+### FadeImage
+Client component wrapping `next/image` with shimmer loading placeholder.
+Shows animated gray gradient while loading, fades to reveal image on load.
+Props: standard `ImageProps` + `shimmer` boolean.
+
+**CRITICAL:** Never use FadeImage or any animated component inside elements
+that are children of `backdrop-filter` containers. Animations on child
+elements can interfere with backdrop-filter compositing.
+
 ### Interactive Cards
-Dark opaque with orange border on hover. Image thumbnail (16:9 aspect ratio)
-+ text content. Border radius follows inset rule (see visual-language skill).
+Dark frosted with orange border on hover. Image thumbnail inset 4px with
+24px radius. Uses `--radius-xl` (28px) for outer card radius.
 
 ### Header
-Logo left, nav right. Desktop nav uses pill-shaped links with orange border
-hover. Mobile: burger button triggers full-screen overlay nav as sibling of
-headerInner (outside backdrop-filter context for correct fixed positioning).
+Logo left, nav right. Desktop nav uses pill-shaped links with 4px gap and
+orange border hover. Burger button is fully circular (`border-radius: 50%`).
+Mobile nav links use pill shape (`--radius-pill`), 14px font size.
 
 ### Mobile Nav
 Rendered as a **sibling** of `.headerInner`, not inside it. This avoids the
 `backdrop-filter` containing block issue. `position: fixed; inset: 0;`
-z-index: 98. `headerInner` uses `position: relative; z-index: 99` to stay
-above the overlay so the close button remains tappable. 6px gap between
-nav items.
+z-index: 98. Nav links use `--radius-pill` matching desktop style.
 
-### Creative Lab Gallery
-Full-bleed image gallery outside of ContentBlock. No glass wrapper — images
-are the content. Supports aspect ratios: `cinematic` (2.39:1), `wide` (16:9),
-`standard` (4:3), `portrait` (3:4). Featured projects get `--radius-xl` frames.
-Metadata sits in a dark translucent bar below each image. Tags use `--radius-sm`
-with subtle white background. Hover: slow 1.02× zoom (0.6s cubic-bezier).
+### Page Transition Veil
+A fixed overlay (`z-index: 50`) rendered as a sibling of the content layer.
+Background matches `--color-bg`. Fades from opaque to transparent on each
+navigation via `key={pathname}`. Uses CSS animation (opacity only).
+
+**CRITICAL:** Never use `animation` or `transform` on parent elements that
+contain children with `backdrop-filter`. This creates a compositing group
+that breaks the blur effect. The veil works because it's a sibling, not
+a parent.
 
 ### ImageViewer
 Rendered via `createPortal(document.body)` with `useState` mount guard for SSR.
-z-index: 9000. Background click closes. Arrow buttons always visible (disabled
-at 20% opacity). Supports `description` text. Counter at bottom.
+z-index: 9000. Images use inline opacity transition (not FadeImage) —
+starts at `opacity: 0`, transitions to 1 on load. No shimmer wrapper to
+avoid layout offset issues.
+
+### ScreenshotGroup
+Flex layout for phone screenshots. Used both inside CaseStudySection (as
+visual column) and as standalone sections outside containers. When standalone,
+wrap in a dark frosted container for visual grouping. Gap: 20px between items.
+
+### MetricsBlock
+Standalone section outside CaseStudyContainer. Cards use glass gradient
+background with blur. Side-by-side columns on desktop, stacking on mobile.
 
 ## Accessibility
 

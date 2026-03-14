@@ -11,8 +11,8 @@
   --color-accent-muted: rgba(240, 83, 4, 0.5);
 
   /* Interactive surface */
-  --color-card-bg: rgba(18, 18, 18, 0.92);
-  --color-card-bg-hover: rgba(24, 24, 24, 0.95);
+  --color-card-bg: rgba(18, 18, 18, 0.35);
+  --color-card-bg-hover: rgba(24, 24, 24, 0.45);
   --color-glow: rgba(240, 83, 4, 0.12);
   --color-glow-strong: rgba(240, 83, 4, 0.25);
 

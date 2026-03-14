@@ -13,7 +13,9 @@ export default function CaseStudySection({
   children,
 }: Props) {
   return (
-    <section className={styles.section}>
+    <section
+      className={`${styles.section} ${children ? styles.withVisual : ""}`}
+    >
       <div className={styles.text}>
         <h3 className={styles.title}>{title}</h3>
         <div className={styles.description}>{description}</div>

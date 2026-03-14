@@ -49,6 +49,8 @@ export default function PageLayout({
         </main>
         <Footer />
       </div>
+
+      <div key={pathname} className={styles.veil} aria-hidden />
     </div>
   );
 }

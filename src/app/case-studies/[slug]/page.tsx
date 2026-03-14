@@ -8,6 +8,7 @@ import ScreenshotGroup from "@/components/CaseStudy/ScreenshotGroup";
 import MetricsBlock from "@/components/CaseStudy/MetricsBlock";
 import SectionDivider from "@/components/CaseStudy/SectionDivider";
 import ImageViewer from "@/components/CaseStudy/ImageViewer";
+import styles from "./page.module.css";
 
 const SCREENSHOT_1 =
   "https://www.figma.com/api/mcp/asset/7fdf8c5a-66c8-4127-9586-a0e88387ef40";
@@ -19,13 +20,29 @@ const screenshots = [
     src: SCREENSHOT_1,
     alt: "Business name input — onboarding step",
     caption: "Business name input",
-    description: "Onboarding step where the user enters their business name to start building.",
+    description:
+      "Onboarding step where the user enters their business name to start building.",
   },
   {
     src: SCREENSHOT_2,
     alt: "AI-generated flows — pick a flow",
     caption: "AI-generated flows",
-    description: "AI generates multiple flow options so the user can pick the one closest to their intent.",
+    description:
+      "AI generates multiple flow options so the user can pick the one closest to their intent.",
+  },
+  {
+    src: SCREENSHOT_1,
+    alt: "Business name input — onboarding iteration",
+    caption: "Onboarding iteration",
+    description:
+      "Refined onboarding step after usability testing feedback.",
+  },
+  {
+    src: SCREENSHOT_2,
+    alt: "AI-generated flows — refined selection",
+    caption: "Flow selection refinement",
+    description:
+      "Updated flow selection with clearer labels and improved hierarchy.",
   },
 ];
 
@@ -76,22 +93,14 @@ export default function CaseStudyPage() {
           }
         >
           <ScreenshotGroup
-            screenshots={screenshots.slice(0, 2)}
+            screenshots={screenshots.slice(0, 1)}
             layout="phone-pair"
             onImageClick={openViewer}
           />
         </CaseStudySection>
+      </CaseStudyContainer>
 
-        <SectionDivider />
-
-        <ScreenshotGroup
-          screenshots={screenshots}
-          layout="phone-pair"
-          onImageClick={openViewer}
-        />
-
-        <SectionDivider />
-
+      <CaseStudyContainer title="My Role">
         <CaseStudySection
           title="My Role"
           description={
@@ -100,16 +109,27 @@ export default function CaseStudyPage() {
               <li>Led 70+ interviews with real users</li>
               <li>Ran 10+ unmoderated usability tests</li>
               <li>Designed a mobile-first experience focused on time-to-value</li>
-              <li>Created an AI-powered prototype used to refine the experience</li>
-              <li>Helped shape the internal narrative and go-to-market strategy with marketing</li>
+              <li>
+                Created an AI-powered prototype used to refine the experience
+              </li>
+              <li>
+                Helped shape the internal narrative and go-to-market strategy
+                with marketing
+              </li>
             </ul>
           }
         />
-
-        <SectionDivider />
-
-        <MetricsBlock metrics={metrics} />
       </CaseStudyContainer>
+
+      <section className={styles.screenshotSection} aria-label="Product screenshots">
+        <ScreenshotGroup
+          screenshots={screenshots}
+          layout="phone-pair"
+          onImageClick={openViewer}
+        />
+      </section>
+
+      <MetricsBlock metrics={metrics} />
 
       {viewerIndex !== null && (
         <ImageViewer

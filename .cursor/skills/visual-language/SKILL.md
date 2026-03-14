@@ -14,9 +14,9 @@ description: >-
 
 Every page follows a **Z-pattern reading flow**:
 
-1. **Primary** — The single most important thing (name, case study title).
+1. **Primary** — The single most important thing (headline, case study title).
    Largest type, strongest weight, full white.
-2. **Secondary** — Supporting context (tagline, excerpt, metric).
+2. **Secondary** — Supporting context (paragraphs, excerpts, principles).
    Smaller type, lighter weight or muted color.
 3. **Tertiary** — Navigation cues and metadata (labels, CTAs, counters).
    Smallest type, muted, uppercase tracking.
@@ -25,11 +25,28 @@ Every page follows a **Z-pattern reading flow**:
 
 | Signal | How we use it |
 |--------|--------------|
-| Size | 24px display → 16px body → 12px caption |
-| Weight | 700 bold headlines → 300 light body |
+| Size | 40px display → 24px page title → 14px body → 10px label |
+| Weight | 700 bold headlines → 500 principles → 300 light body |
 | Color | `--color-text` (primary) → `--color-text-muted` (secondary) |
-| Case | UPPERCASE for headlines/labels → Sentence case for body |
+| Case | UPPERCASE for headlines/labels/display → Sentence case for body |
 | Spacing | More padding around primary content, tighter around tertiary |
+
+## Typography Scale
+
+Standardized roles with consistent sizing:
+
+| Role | Size | Weight | Tracking | Example |
+|------|------|--------|----------|---------|
+| Display | 40px (28px mobile) | 700 | -0.44px | Capabilities list items |
+| Page title | 24px | 700 | -0.264px | Hero headline |
+| Section title | 14px | 700 | -0.154px | "Experience", "Design Philosophy" |
+| Card title | 16px | 700 | -0.176px | Card headings |
+| Body | 14px | 300/500 | -0.154px | Paragraphs, principles |
+| Caption | 12px | 300 | -0.132px | Nav, metadata, experience details |
+| Label | 10px | 500 | 0.5px | Card labels, meta items |
+
+Display text is intentionally larger than section titles — it serves as
+a visual element, not just readable text.
 
 ## Spacing Rhythm
 
@@ -37,13 +54,14 @@ All spacing derives from a **4px base unit**. Common values:
 
 | Multiple | px | Usage |
 |----------|-----|-------|
-| 1× | 4px | Minimum breathing room, main-x padding |
+| 1× | 4px | Minimum breathing room, main-x padding, card image inset |
 | 2× | 8px | Section gaps, card gaps |
 | 3× | 12px | Page edge padding, tagline gaps |
-| 5× | 20px | Card content padding, inner spacing |
-| 7× | 28px | ContentBlock inner padding |
-| 8× | 32px | Desktop ContentBlock horizontal padding |
-| 9× | 36px | Case study section padding |
+| 4× | 16px | Card label-to-body spacing, principle gaps |
+| 5× | 20px | Card content padding, image gap |
+| 7× | 28px | ContentBlock inner padding, card arrow spacing |
+| 8× | 32px | Hero block spacing (headline → bio → meta) |
+| 12× | 48px | Case study section padding |
 
 ### Rules
 
@@ -53,24 +71,24 @@ All spacing derives from a **4px base unit**. Common values:
 - **Vertical rhythm > horizontal precision.** Consistent vertical spacing
   matters more than pixel-perfect horizontal alignment.
 
+### Content Group Spacing
+
+Cards and sections use three distinct content groups:
+- **Group 1 → Group 2:** 16px (label to body)
+- **Group 2 internal:** 4–6px (title to description, tightly coupled)
+- **Group 2 → Group 3:** 28px (body to action/arrow)
+
+Hero uses generous group spacing:
+- **Headline → Bio:** 32px
+- **Bio → Metadata:** 32px
+
 ## Information Density
 
 - **Body text:** 60ch max line width (`--measure`). Prevents eye fatigue.
-  Aim for 8–12 words per line.
-- **Card text:** Shorter — max 50ch for excerpts, 24ch for titles.
+- **Card text:** Shorter — max 50ch for excerpts, 28ch for titles.
 - **Headlines:** Max 8 words. If longer, break into subtitle.
 - **Paragraphs:** 2–4 sentences. Break after each complete thought.
-- **Lists:** 4–6 items max. Beyond that, group or summarize.
-
-## Typography Sizing Rules
-
-- **Never use more than 3 font sizes on a single visible screen.**
-  Exception: metric callouts and micro labels.
-- **Minimum body size:** 12px (never go below for any readable text).
-- **Scale ratio:** Roughly 1.25× between each step:
-  10 → 12 → 14 → 16 → 18 → 20 → 24
-- **Letter-spacing tightens as size increases.** Large text needs negative
-  tracking; small text needs neutral or positive tracking.
+- **Lists:** 4–8 items max. Beyond that, group or summarize.
 
 ## Border Radius Inset Rule
 
@@ -87,16 +105,16 @@ inner_radius = outer_radius - gap (minimum 0)
 
 | Container | Radius | Gap to child | Child radius |
 |-----------|--------|-------------|--------------|
-| ContentBlock (glass) | 28px (`--radius-xl`) | 28px padding | Cards: 20px (`--radius-lg`) → 28 - 8 = 20 ✓ |
-| Card | 20px (`--radius-lg`) | 0 (image flush) | Image: 0 (squared inside card overflow) |
-| Header pill | 999px (`--radius-pill`) | 6px padding | Nav pills: 999px (same — both pill) |
-| Mobile nav overlay | 0 (inset:0) | 20px padding | Nav links: 12px (`--radius-md`) |
+| Interactive card | 28px (`--radius-xl`) | 4px inset | Image: 24px |
+| ContentBlock (glass) | 28px (`--radius-xl`) | 28px padding | N/A (text content) |
+| Header pill | 999px (`--radius-pill`) | 6px padding | Nav pills: 999px, Burger: 50% circle |
+| Mobile nav overlay | 0 (inset:0) | 20px padding | Nav links: 999px (`--radius-pill`) |
+| Screenshot container | 28px (`--radius-xl`) | 0 padding | Screenshots have own radius |
 
 ### When to break the rule
 
 - **Pill shapes** (999px) always stay pill regardless of nesting.
-- **Images inside cards** use `overflow: hidden` on the card — no radius on
-  the image itself.
+- **Circular elements** (burger button: 50%) follow circle logic, not inset.
 
 ## Visual vs Mathematical Alignment
 
@@ -108,71 +126,78 @@ CSS alignment and visual alignment are not the same. Apply optical corrections:
   or increase bottom padding.
 - **Rounded containers:** Padding inside rounded corners needs to be
   slightly larger than padding on straight edges (the radius eats space).
-- **Arrow/CTA at bottom of card:** Align optically to the last line of text,
-  not to a mathematical grid. Use `margin-top: auto` to push down, not
-  fixed spacing.
+- **Arrow/CTA at bottom of card:** Use consistent margin-top (28px) to
+  create clear visual separation from the body group.
 - **Metric numbers (large bold):** Large numbers look heavier than text.
   Give them extra whitespace to breathe.
 
-## Interactive Element Visual Language
+## Container Surface Language
 
-### Static elements (glass panels)
+### Read-only surfaces (glass panels)
 
-- Red-tinted semi-transparent glass
+- Red-tinted semi-transparent glass (`--gradient-glass`)
+- `backdrop-filter: blur(var(--blur-glass))`
 - Shimmer animation (subtle, 16s loop)
 - No border, no hover state
-- Content reads through the panel
+- Used for: hero, info sections, metric cards
 
-### Interactive elements (cards, links, buttons)
+### Interactive surfaces (clickable cards)
 
-- Dark opaque background (`--color-card-bg`)
+- Dark semi-transparent (`--color-card-bg`, 0.35 opacity)
+- `backdrop-filter: blur(var(--blur-glass))` — same blur as glass
 - `border: 1.5px solid transparent` at rest
-- On hover: `border-color: var(--color-accent)` (bright orange #F05304)
-- On hover: subtle outer glow + 2px lift
-- On active: scale(0.99) press effect + stronger glow
-- Thumbnail images zoom 1.03× on hover
-- Arrow/CTA shifts right 4px + changes to accent color
-- All transitions: 0.15–0.25s ease
+- On hover: orange border, glow, 2px lift
+- On active: scale(0.99), stronger glow
+- Used for: navigation cards, case study cards
 
-### Focus states
+### Neutral containers (screenshot sections)
 
-- 2px orange outline (`--color-accent-muted`) with 2px offset
-- Visible only on keyboard navigation (`:focus-visible`)
-
-## Color Usage Rules
-
-- **White (#fff)** — Primary headlines, active nav, metric values
-- **Muted (rgba 0.6)** — Body text, descriptions, labels, inactive nav
-- **Accent (#F05304)** — Hover borders, focus outlines, CTA highlights only
-- **Never use accent for static text.** It's reserved for interaction feedback.
-- **Background surfaces** go from transparent glass (static) to opaque dark
-  gray (interactive). The contrast signals clickability.
+- Same `--color-card-bg` as interactive cards but without hover states
+- Used to visually group content (screenshots, media)
 
 ## Page Composition
 
 Each page follows this vertical flow:
 
 1. **Header** — Fixed, always visible. Anchors the user.
-2. **Title block** — ContentBlock with the page heading. Short, bold.
-3. **Context block** — ContentBlock with explanatory text. Light, readable.
-4. **Action area** — ContentBlock with cards/interactive elements. Grows
-   to fill remaining viewport height.
-5. **Footer** — Pill, credits. Lightweight.
+2. **Hero/Title** — ContentBlock with page heading and context.
+3. **Content sections** — Rendered directly in page flow:
+   - Glass sections for read-only content
+   - Card grids for interactive content
+   - Dark containers for media/screenshots
+4. **Footer** — Pill, credits. Lightweight.
+
+### Home page structure
+
+1. ContentBlock (hero: headline, bio, metadata)
+2. Card grid (Case Studies + Creative Lab)
+3. Glass section (Experience + Design Philosophy, two columns)
+4. Glass section (What I'm known for, display text)
 
 ### Breathing room
 
-- Between header and first content: enough to feel separation (~64px total
-  from top with padding calc).
-- Between title and body blocks: 8px (tight — they're related).
-- Between body and card blocks: 8px (same grouping).
-- Home variant: extra padding-top to reveal background image eyes.
+- Between header and first content: ~64px (from padding calc)
+- Between sections: 8px (`--gap-section`)
+- Home variant: 200px padding-top for background image reveal
+
+## Page Transitions
+
+Navigation uses a **veil overlay** that fades from opaque black to
+transparent (0.45s ease-out with 0.05s delay). The veil is a fixed sibling
+element (`z-index: 50`), not a parent — this avoids breaking
+`backdrop-filter` on content elements.
+
+**CRITICAL constraint:** Never apply `animation`, `transform`, or `opacity`
+animations to parent elements that contain `backdrop-filter` children.
+These properties create compositing groups that break the blur effect.
 
 ## Responsive Principles
 
 - **Mobile is not a smaller desktop.** Rethink layouts, don't just shrink.
 - Cards stack vertically on mobile (no 2-column grid).
-- Case study cards switch from horizontal to vertical.
-- Mobile nav is a full-screen overlay, not a dropdown.
+- Two-column sections (experience/philosophy) stack on mobile.
+- Mobile nav is a full-screen overlay with pill-shaped links.
 - Touch targets: minimum 44px height.
-- Body text stays 16px on mobile (never shrink for small screens).
-- Headlines can reduce one step (24→20px) but no further.
+- Body text stays 14px on mobile (never shrink for small screens).
+- Display text scales: 40px desktop → 28px mobile.
+- Headlines stay 24px on all screens.

@@ -1,9 +1,12 @@
 .section {
+  padding: 48px;
+}
+
+.withVisual {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   align-items: start;
-  padding: 64px 48px;
 }
 
 .text {
@@ -67,8 +70,11 @@
 
 @media (max-width: 768px) {
   .section {
+    padding: 32px 24px;
+  }
+
+  .withVisual {
     grid-template-columns: 1fr;
     gap: 24px;
-    padding: 40px 24px;
   }
 }

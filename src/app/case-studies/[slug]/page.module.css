@@ -1,1 +1,7 @@
-/* Styles moved into CaseStudy components */
+.screenshotSection {
+  background: var(--color-card-bg);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border-radius: var(--radius-xl);
+  padding: 32px 0;
+}

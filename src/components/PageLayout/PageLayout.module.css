@@ -14,7 +14,7 @@
 .backgroundImage {
   object-fit: cover;
   object-position: center 20%;
-  transform: scale(0.85);
+  transform: scale(0.7);
   transform-origin: center 30%;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .contentLayerHome .main {
-  padding-top: min(20vh, 160px);
+  padding-top: 200px;
 }
 
 .main {
@@ -51,9 +51,17 @@
   padding-right: var(--padding-main-x);
 }
 
-@media (max-width: 768px) {
-  .backgroundImage {
-    transform: scale(0.9);
-    object-position: center 15%;
-  }
+/* Page transition veil — sibling overlay, does not affect backdrop-filter */
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--color-bg);
+  pointer-events: none;
+  animation: veilOut 0.45s ease-out 0.05s both;
+}
+
+@keyframes veilOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }

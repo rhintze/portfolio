@@ -6,14 +6,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  animation: fadeIn 0.15s ease-out;
+  animation: fadeIn 0.2s ease-out;
   cursor: pointer;
+  padding: 64px 0 32px;
+}
+
+.overlayClosing {
+  animation: fadeOut 0.2s ease-in forwards;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 .close {
@@ -52,6 +61,8 @@
   width: 100%;
   max-width: 90vw;
   padding: 0 64px;
+  flex: 1;
+  min-height: 0;
 }
 
 .imageWrapper {
@@ -60,14 +71,21 @@
   justify-content: center;
   flex: 1;
   min-height: 0;
+  max-height: 100%;
 }
 
 .image {
-  max-height: 76vh;
+  max-height: 72vh;
   width: auto;
   height: auto;
   border-radius: var(--radius-lg);
   box-shadow: 0 16px 64px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.imageLoaded {
+  opacity: 1;
 }
 
 .arrow {
@@ -99,13 +117,14 @@
   cursor: default;
 }
 
-.footer {
+.meta {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  margin-top: 16px;
+  padding-top: 16px;
   cursor: default;
+  flex-shrink: 0;
 }
 
 .description {
@@ -125,6 +144,10 @@
 }
 
 @media (max-width: 768px) {
+  .overlay {
+    padding: 56px 0 24px;
+  }
+
   .content {
     padding: 0 16px;
     gap: 8px;

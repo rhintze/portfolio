@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Header.module.css";
@@ -15,11 +15,37 @@ const navItems = [
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const toggle = useCallback(() => setMenuOpen((v) => !v), []);
-  const close = useCallback(() => setMenuOpen(false), []);
+  const [menuClosing, setMenuClosing] = useState(false);
+  const menuOpenRef = useRef(menuOpen);
+  const closingTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  menuOpenRef.current = menuOpen;
+
+  const close = useCallback(() => {
+    if (!menuOpenRef.current) return;
+    setMenuClosing(true);
+    closingTimer.current = setTimeout(() => {
+      setMenuOpen(false);
+      setMenuClosing(false);
+    }, 250);
+  }, []);
+
+  const toggle = useCallback(() => {
+    if (menuOpenRef.current) {
+      close();
+    } else {
+      setMenuOpen(true);
+    }
+  }, [close]);
 
   useEffect(() => {
-    if (menuOpen) {
+    return () => {
+      if (closingTimer.current) clearTimeout(closingTimer.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (menuOpen && !menuClosing) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -27,7 +53,7 @@ export default function Header() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [menuOpen]);
+  }, [menuOpen, menuClosing]);
 
   useEffect(() => {
     close();
@@ -79,7 +105,7 @@ export default function Header() {
 
       {menuOpen && (
         <nav
-          className={styles.mobileNav}
+          className={`${styles.mobileNav} ${menuClosing ? styles.mobileNavClosing : ""}`}
           role="navigation"
           aria-label="Mobile navigation"
         >

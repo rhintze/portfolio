@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import styles from "./ImageViewer.module.css";
@@ -27,14 +27,34 @@ function ImageViewerContent({
   const current = images[currentIndex];
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < images.length - 1;
+  const [loaded, setLoaded] = useState(false);
+  const [closing, setClosing] = useState(false);
+  const closingTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => {
+    setLoaded(false);
+  }, [currentIndex]);
+
+  const handleClose = useCallback(() => {
+    setClosing(true);
+    closingTimer.current = setTimeout(() => {
+      onClose();
+    }, 200);
+  }, [onClose]);
+
+  useEffect(() => {
+    return () => {
+      if (closingTimer.current) clearTimeout(closingTimer.current);
+    };
+  }, []);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") handleClose();
       if (e.key === "ArrowLeft" && hasPrev) onNavigate(currentIndex - 1);
       if (e.key === "ArrowRight" && hasNext) onNavigate(currentIndex + 1);
     },
-    [onClose, onNavigate, currentIndex, hasPrev, hasNext]
+    [handleClose, onNavigate, currentIndex, hasPrev, hasNext]
   );
 
   useEffect(() => {
@@ -48,8 +68,8 @@ function ImageViewerContent({
 
   return (
     <div
-      className={styles.overlay}
-      onClick={onClose}
+      className={`${styles.overlay} ${closing ? styles.overlayClosing : ""}`}
+      onClick={handleClose}
       role="dialog"
       aria-modal="true"
       aria-label={`Image viewer — ${current.alt}`}
@@ -58,7 +78,7 @@ function ImageViewerContent({
         className={styles.close}
         onClick={(e) => {
           e.stopPropagation();
-          onClose();
+          handleClose();
         }}
         aria-label="Close image viewer"
       >
@@ -81,12 +101,13 @@ function ImageViewerContent({
 
         <div className={styles.imageWrapper}>
           <Image
-            key={current.src}
+            key={current.src + currentIndex}
             src={current.src}
             alt={current.alt}
             width={720}
             height={1560}
-            className={styles.image}
+            className={`${styles.image} ${loaded ? styles.imageLoaded : ""}`}
+            onLoad={() => setLoaded(true)}
             unoptimized
             priority
           />
@@ -104,7 +125,7 @@ function ImageViewerContent({
         </button>
       </div>
 
-      <div className={styles.footer} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.meta} onClick={(e) => e.stopPropagation()}>
         {current.description && (
           <p className={styles.description}>{current.description}</p>
         )}

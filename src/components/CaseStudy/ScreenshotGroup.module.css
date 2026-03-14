@@ -1,6 +1,7 @@
 .wrapper {
-  padding: 64px 48px;
+  padding: 24px 0;
   overflow-x: auto;
+  width: 100%;
 }
 
 .group {
@@ -12,7 +13,7 @@
 .phone-trio .item,
 .phone-pair .item {
   flex: 0 0 auto;
-  max-width: 220px;
+  max-width: 200px;
 }
 
 .desktop-phone .item:first-child {
@@ -69,12 +70,13 @@
 
 @media (max-width: 768px) {
   .wrapper {
-    padding: 40px 24px;
+    padding: 16px 0;
   }
 
   .group {
-    gap: 12px;
+    gap: 8px;
     justify-content: flex-start;
+    padding: 0 4px;
   }
 
   .phone-trio .item,

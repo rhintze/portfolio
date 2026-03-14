@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import FadeImage from "@/components/FadeImage/FadeImage";
 import styles from "./ScreenshotGroup.module.css";
 
 type Screenshot = {
@@ -39,7 +39,7 @@ export default function ScreenshotGroup({
             aria-label={onImageClick ? `View ${shot.alt} fullscreen` : undefined}
           >
             <div className={styles.frame}>
-              <Image
+              <FadeImage
                 src={shot.src}
                 alt={shot.alt}
                 width={360}

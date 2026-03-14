@@ -43,6 +43,14 @@ Before making changes, verify:
    `filter`, and `will-change` create new containing blocks. `position: fixed`
    inside these becomes relative to the ancestor, not the viewport.
 
+5. **Never animate parents of backdrop-filter children.** CSS `animation`,
+   `transform`, or `opacity < 1` on a parent element creates a compositing
+   group that breaks `backdrop-filter` on all descendants. If page transitions
+   or loading effects are needed, use sibling overlay elements (like the
+   page veil) instead of animating the content container. The `FadeImage`
+   component is safe inside portals (ImageViewer) but must NOT be used
+   inside elements that rely on `backdrop-filter`.
+
 ## During Changes
 
 ### Single-file edits

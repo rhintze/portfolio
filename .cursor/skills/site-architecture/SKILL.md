@@ -13,11 +13,11 @@ description: >-
 
 | Route | File | Description | Key components |
 |-------|------|-------------|----------------|
-| `/` | `src/app/page.tsx` | Home — intro + two navigation cards (Case Studies, Creative Lab) | ContentBlock, Link, Image |
+| `/` | `src/app/page.tsx` | Home — hero, feature cards, experience/philosophy, capabilities | ContentBlock, Link |
 | `/about` | `src/app/about/page.tsx` | Bio and background | ContentBlock |
-| `/case-studies` | `src/app/case-studies/page.tsx` | Case study index — 3 cards with images, metrics, CTA | ContentBlock, Link, Image |
-| `/case-studies/[slug]` | `src/app/case-studies/[slug]/page.tsx` | Case study detail — editorial layout | CaseStudyContainer, QuoteBlock, CaseStudySection, ScreenshotGroup, MetricsBlock, SectionDivider, ImageViewer |
-| `/creative-lab` | `src/app/creative-lab/page.tsx` | Personal projects — immersive gallery | ContentBlock (title only), Image |
+| `/case-studies` | `src/app/case-studies/page.tsx` | Case study index — full-width cards with placeholders | ContentBlock, Link |
+| `/case-studies/[slug]` | `src/app/case-studies/[slug]/page.tsx` | Case study detail — multi-block editorial layout | CaseStudyContainer, QuoteBlock, CaseStudySection, ScreenshotGroup, MetricsBlock, SectionDivider, ImageViewer, FadeImage |
+| `/creative-lab` | `src/app/creative-lab/page.tsx` | Personal projects — immersive full-bleed gallery | ContentBlock (title only), Image |
 
 ## Component Tree
 
@@ -27,23 +27,32 @@ PageLayout (client, wraps all pages)
 ├── Header (client)
 │   ├── headerInner (logo + desktop nav + burger)
 │   └── mobileNav (sibling of headerInner — avoids backdrop-filter bug)
-├── Main
-│   └── [Page content]
-└── Footer
+├── ContentLayer
+│   ├── Main
+│   │   └── [Page content]
+│   └── Footer
+└── Veil (page transition overlay, key={pathname})
 
 ContentBlock (glass panel container)
 ├── ResponsiveContainer → inner (max-width: 60ch for text)
 └── When grow=true → inner has no max-width
 
-CaseStudyContainer (article wrapper for detail pages)
-├── QuoteBlock
-├── SectionDivider
-├── CaseStudySection (two-column: text + visual)
-│   └── ScreenshotGroup (clickable images)
-├── MetricsBlock (metric cards grid)
-└── SectionDivider
+FadeImage (client, shimmer loading wrapper)
+├── Shimmer placeholder (animated gradient)
+└── next/image (fades in on load)
 
-ImageViewer (portal on document.body, z-9000)
+Home page sections (outside ContentBlock):
+├── Glass sections (experience/philosophy, capabilities)
+├── Card grid (clickable feature cards)
+└── Each section renders directly in page flow
+
+Case study detail layout:
+├── CaseStudyContainer (glass) — quote + title section with inline image
+├── CaseStudyContainer (glass) — My Role section
+├── Screenshot section (dark frosted container)
+│   └── ScreenshotGroup with FadeImage
+├── MetricsBlock (standalone glass cards)
+└── ImageViewer (portal on document.body, z-9000)
 ```
 
 ## Data Model
@@ -58,10 +67,11 @@ type CaseStudy = {
   excerpt: string;
   metric: string;       // hero number (e.g. "2.6×")
   metricLabel: string;
-  image: string;        // card preview URL
-  imageAlt: string;
 };
 ```
+
+Note: Case study index cards currently use dark gray placeholders instead
+of screenshots. Images will be added later.
 
 ### Screenshots
 
@@ -104,10 +114,12 @@ type CreativeProject = {
 ### Image Guidelines
 
 - Use `next/image` with `fill` + `object-fit: cover` for thumbnails.
+- Use `FadeImage` for images that benefit from shimmer loading (screenshots,
+  gallery images). Do NOT use inside backdrop-filter parent containers.
 - Always provide meaningful `alt` text describing the visual content.
 - Figma URLs require `unoptimized` prop (external host).
 - Local images in `public/images/` are automatically optimized.
-- Card thumbnails use `aspect-ratio: 16/9`.
+- Card thumbnails are inset 4px from card edge with 24px inner radius.
 
 ## Adding a New Case Study
 
@@ -116,12 +128,11 @@ type CreativeProject = {
    a separate file and import). Use the existing component primitives:
    - `CaseStudyContainer` (outer glass wrapper)
    - `QuoteBlock` (hero quote)
-   - `CaseStudySection` (text + optional visual)
-   - `ScreenshotGroup` (phone/desktop screenshots, clickable)
-   - `MetricsBlock` (impact numbers)
+   - `CaseStudySection` (text + optional visual column)
+   - `ScreenshotGroup` (phone/desktop screenshots, clickable, uses FadeImage)
+   - `MetricsBlock` (impact numbers — renders outside container)
    - `SectionDivider` (thin horizontal line)
 3. Add slug to `generateStaticParams` in `[slug]/layout.tsx`.
-4. Add card image to `public/images/` or use Figma asset URL.
 
 ## Adding a New Creative Lab Project
 
@@ -132,15 +143,15 @@ type CreativeProject = {
    `standard` (4:3), or `portrait` (3:4).
 5. Multi-image projects: add multiple entries to the `images` array.
    Additional images render in a 2-column grid below the first.
-6. For video content: use `<video>` with `preload="metadata"`, poster frame,
-   and lazy loading. Keep videos under 10MB; consider WebM + MP4 fallback.
 
 ## Adding a New Page
 
 1. Create `src/app/your-page/page.tsx` + `page.module.css`.
-2. Use `ContentBlock` for static text, `ContentBlock grow` for card grids.
-3. Follow typography scale from the design-system skill.
-4. Add route to `navItems` in `src/components/Header/Header.tsx`.
+2. Use `ContentBlock` for header/hero text sections.
+3. Render additional sections (cards, lists, content) directly in the page
+   flow outside ContentBlock.
+4. Follow typography scale from the design-system skill.
+5. Add route to `navItems` in `src/components/Header/Header.tsx`.
 
 ## Stacking Context / Z-Index Map
 
@@ -148,6 +159,7 @@ type CreativeProject = {
 |-------|---------|---------|
 | Background | 0 | Background image + gradient |
 | Content | 1 | ContentLayer (main + footer) |
+| Page veil | 50 | Transition overlay (fades out on navigation) |
 | Mobile nav overlay | 98 | Full-screen nav (sibling of headerInner) |
 | Header inner | 99 | headerInner (relative, inside .header) |
 | Header | 100 | Fixed header wrapper |
@@ -160,7 +172,9 @@ type CreativeProject = {
 - Images use next/image for automatic optimization (except Figma URLs).
 - CSS Modules ensure zero unused CSS in production.
 - No client-side JavaScript on static pages (ContentBlock, Footer are server
-  components). Only Header, ImageViewer, and case study detail use `"use client"`.
+  components). Only Header, ImageViewer, FadeImage, and case study detail
+  use `"use client"`.
+- Page transitions use a CSS-only veil overlay (no JS animation library).
 
 ## Future Considerations
 

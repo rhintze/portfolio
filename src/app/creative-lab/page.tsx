@@ -33,6 +33,51 @@ const projects: CreativeProject[] = [
       },
     ],
   },
+  {
+    title: "Morning Fog",
+    medium: "3D Render",
+    year: "2024",
+    description:
+      "Atmospheric landscape study exploring volumetric fog and natural light in Blender.",
+    featured: false,
+    images: [
+      {
+        src: "/images/trains.png",
+        alt: "Foggy morning landscape with soft volumetric lighting",
+        aspect: "wide",
+      },
+    ],
+  },
+  {
+    title: "Urban Geometry",
+    medium: "Photography",
+    year: "2023",
+    description:
+      "Architectural photography series exploring repetition, symmetry, and light in urban environments.",
+    featured: false,
+    images: [
+      {
+        src: "/images/trains.png",
+        alt: "Geometric patterns in modern urban architecture",
+        aspect: "cinematic",
+      },
+    ],
+  },
+  {
+    title: "Signal & Noise",
+    medium: "Animation",
+    year: "2023",
+    description:
+      "Short experimental animation exploring the boundary between clarity and chaos in visual communication.",
+    featured: false,
+    images: [
+      {
+        src: "/images/trains.png",
+        alt: "Abstract animation frame with layered visual elements",
+        aspect: "wide",
+      },
+    ],
+  },
 ];
 
 export default function CreativeLab() {
@@ -102,8 +147,20 @@ export default function CreativeLab() {
 
         {rest.map((project, i) => (
           <article key={`r-${i}`} className={styles.project}>
-            <div className={styles.projectHeader}>
-              <div>
+            <div
+              className={`${styles.imageFrame} ${styles[project.images[0]?.aspect || "wide"]}`}
+            >
+              <Image
+                src={project.images[0].src}
+                alt={project.images[0].alt}
+                fill
+                className={styles.image}
+                sizes="100vw"
+              />
+              <div className={styles.imageVignette} aria-hidden />
+            </div>
+            <div className={styles.projectMeta}>
+              <div className={styles.metaLeft}>
                 <h2 className={styles.projectTitle}>{project.title}</h2>
                 {project.description && (
                   <p className={styles.projectDesc}>{project.description}</p>
@@ -115,32 +172,6 @@ export default function CreativeLab() {
                   <span className={styles.tag}>{project.year}</span>
                 )}
               </div>
-            </div>
-            <div
-              className={
-                project.images.length === 1
-                  ? styles.singleImage
-                  : styles.imageGrid
-              }
-            >
-              {project.images.map((img, j) => (
-                <div
-                  key={j}
-                  className={`${styles.imageFrame} ${styles[img.aspect || "wide"]}`}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className={styles.image}
-                    sizes={
-                      project.images.length === 1
-                        ? "100vw"
-                        : "(max-width: 768px) 100vw, 50vw"
-                    }
-                  />
-                </div>
-              ))}
             </div>
           </article>
         ))}

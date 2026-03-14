@@ -39,7 +39,7 @@
 .desktopNav {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 4px;
 }
 
 .navLink {
@@ -80,8 +80,8 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  margin-right: 4px;
-  border-radius: var(--radius-sm);
+  margin-right: 0;
+  border-radius: 50%;
   transition: background 0.15s ease;
 }
 
@@ -151,12 +151,12 @@
 
   .mobileNavLink {
     display: block;
-    padding: 16px 20px;
-    font-size: 18px;
+    padding: 14px 20px;
+    font-size: 14px;
     font-weight: 400;
-    letter-spacing: -0.198px;
+    letter-spacing: -0.154px;
     color: var(--color-text);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-pill);
     border: 1.5px solid transparent;
     transition: background 0.15s ease, border-color 0.2s ease;
   }
@@ -172,8 +172,17 @@
     background: rgba(255, 255, 255, 0.08);
   }
 
+  .mobileNavClosing {
+    animation: menuOut 0.25s ease-in forwards;
+  }
+
   @keyframes menuIn {
     from { opacity: 0; }
     to { opacity: 1; }
+  }
+
+  @keyframes menuOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
   }
 }
