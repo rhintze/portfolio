@@ -6,13 +6,22 @@
   --color-text-muted: rgba(255, 255, 255, 0.6);
   --color-border: rgba(255, 255, 255, 0.1);
 
+  /* Accent — bright orange from gradient */
+  --color-accent: #F05304;
+  --color-accent-muted: rgba(240, 83, 4, 0.5);
+
+  /* Interactive surface */
+  --color-card-bg: rgba(18, 18, 18, 0.92);
+  --color-card-bg-hover: rgba(24, 24, 24, 0.95);
+  --color-glow: rgba(240, 83, 4, 0.12);
+  --color-glow-strong: rgba(240, 83, 4, 0.25);
+
   /* Gradient stops (from Figma) */
   --grad-1: #4D0B00;
   --grad-2: #D01100;
   --grad-3: #F05304;
   --grad-4: #FFC18B;
 
-  /* Background gradient - applied as multiply over image */
   --gradient-hero: linear-gradient(
     107deg,
     var(--grad-1) 0%,
@@ -21,31 +30,34 @@
     var(--grad-4) 100%
   );
 
-  /* Glass panel gradient */
   --gradient-glass: linear-gradient(
     136deg,
-    rgba(77, 11, 0, 0.2) 0%,
-    rgba(208, 17, 0, 0.2) 32%,
-    rgba(240, 83, 4, 0.2) 64%,
-    rgba(255, 193, 139, 0.2) 100%
+    rgba(77, 11, 0, 0.14) 0%,
+    rgba(208, 17, 0, 0.12) 32%,
+    rgba(240, 83, 4, 0.1) 64%,
+    rgba(255, 193, 139, 0.08) 100%
   );
 
-  /* Radius - proportional scale */
-  --radius-xl: 32px;
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --radius-sm: 8px;
+  /* Radius */
+  --radius-pill: 999px;
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 6px;
 
   /* Spacing */
-  --gap-section: 12px;
-  --padding-page: 24px;
-  --padding-block: 48px;
+  --gap-section: 8px;
+  --gap-card: 8px;
+  --padding-page: 12px;
+  --padding-block: 36px;
+  --padding-main-x: 4px;
+  --header-height: 44px;
 
   /* Blur */
   --blur-glass: 40px;
 
-  /* Typography - max line width */
-  --measure: 65ch;
+  /* Typography */
+  --measure: 60ch;
 }
 
 * {
@@ -60,6 +72,7 @@ body {
   color: var(--color-text);
   font-family: var(--font-ibm-plex-mono), monospace;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -67,6 +80,41 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-muted);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 9999;
+  width: auto;
+  height: auto;
+  padding: 8px 16px;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
 }

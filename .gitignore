@@ -3,5 +3,8 @@ node_modules/
 dist/
 .env
 .env.local
+.env.production.local
 *.log
 .DS_Store
+.cursor/*
+!.cursor/skills/

@@ -3,24 +3,21 @@
   min-height: 100vh;
 }
 
-/* Background - full viewport, fixed */
 .background {
   position: fixed;
   inset: 0;
   z-index: 0;
   background: var(--color-bg);
+  overflow: hidden;
 }
 
 .backgroundImage {
   object-fit: cover;
+  object-position: center 20%;
+  transform: scale(0.85);
+  transform-origin: center 30%;
 }
 
-/*
-  Gradient overlay — multiply blend so the image
-  reads as deep red/black. Most of the viewport
-  ends up near-black; only the image area gets the
-  warm tint.
-*/
 .gradientOverlay {
   position: absolute;
   inset: 0;
@@ -29,7 +26,6 @@
   pointer-events: none;
 }
 
-/* Content layer - stacks above background */
 .contentLayer {
   position: relative;
   z-index: 1;
@@ -37,12 +33,12 @@
   flex-direction: column;
   min-height: 100vh;
   padding: var(--padding-page);
+  padding-top: calc(var(--header-height) + var(--padding-page) * 2 + var(--gap-section));
   gap: var(--gap-section);
 }
 
-/* Home: push main down so eyes show above frosted blocks */
 .contentLayerHome .main {
-  padding-top: min(25vh, 200px);
+  padding-top: min(20vh, 160px);
 }
 
 .main {
@@ -51,4 +47,13 @@
   flex-direction: column;
   gap: var(--gap-section);
   width: 100%;
+  padding-left: var(--padding-main-x);
+  padding-right: var(--padding-main-x);
+}
+
+@media (max-width: 768px) {
+  .backgroundImage {
+    transform: scale(0.9);
+    object-position: center 15%;
+  }
 }

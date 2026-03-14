@@ -5,41 +5,25 @@
 .glass {
   backdrop-filter: blur(var(--blur-glass));
   -webkit-backdrop-filter: blur(var(--blur-glass));
-  background: var(--gradient-glass);
-  border: 1px solid var(--color-border);
+  background-image: var(--gradient-glass);
+  background-size: 200% 200%;
   border-radius: var(--radius-xl);
   overflow: hidden;
-  animation: glassSubtle 8s ease-in-out infinite alternate;
+  animation: glassShimmer 16s ease-in-out infinite;
 }
 
-@keyframes glassSubtle {
-  from {
-    background: linear-gradient(
-      130deg,
-      rgba(77, 11, 0, 0.22) 0%,
-      rgba(208, 17, 0, 0.18) 35%,
-      rgba(240, 83, 4, 0.18) 65%,
-      rgba(255, 193, 139, 0.15) 100%
-    );
-  }
-  to {
-    background: linear-gradient(
-      145deg,
-      rgba(77, 11, 0, 0.2) 0%,
-      rgba(208, 17, 0, 0.22) 35%,
-      rgba(240, 83, 4, 0.2) 65%,
-      rgba(255, 193, 139, 0.18) 100%
-    );
-  }
+@keyframes glassShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .inner {
-  padding: var(--padding-block);
+  padding: 28px 32px;
   max-width: var(--measure);
   width: 100%;
 }
 
-/* All alignments share the same left margin for consistent text edge */
 .alignStart .inner {
   text-align: left;
 }
@@ -51,4 +35,25 @@
 
 .alignEnd .inner {
   text-align: left;
+}
+
+.grow {
+  flex: 1;
+}
+
+.grow .glass {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.grow .inner {
+  flex: 1;
+  max-width: none;
+}
+
+@media (max-width: 768px) {
+  .inner {
+    padding: 24px;
+  }
 }

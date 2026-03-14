@@ -19,116 +19,142 @@ spacing, or font stacks. Always reference tokens.
 | Token | Value | Usage |
 |-------|-------|-------|
 | `--color-bg` | `#000000` | Page background |
-| `--color-text` | `#ffffff` | Primary text |
-| `--color-text-muted` | `rgba(255,255,255,0.6)` | Secondary text, nav links, captions |
-| `--color-border` | `rgba(255,255,255,0.1)` | Borders on glass panels, header, footer |
+| `--color-text` | `#ffffff` | Primary text, headlines, active nav |
+| `--color-text-muted` | `rgba(255,255,255,0.6)` | Body text, captions, inactive elements |
+| `--color-border` | `rgba(255,255,255,0.1)` | Header/footer borders |
+| `--color-accent` | `#F05304` | Hover borders, CTA highlights, focus outlines |
+| `--color-accent-muted` | `rgba(240,83,4,0.5)` | Focus-visible outlines |
 
-### Gradient Stops
+### Interactive Surface
 
-From Figma — warm red/orange ramp:
-
-| Token | Hex |
-|-------|-----|
-| `--grad-1` | `#4D0B00` |
-| `--grad-2` | `#D01100` |
-| `--grad-3` | `#F05304` |
-| `--grad-4` | `#FFC18B` |
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--color-card-bg` | `rgba(18,18,18,0.92)` | Dark opaque card resting state |
+| `--color-card-bg-hover` | `rgba(24,24,24,0.95)` | Card hover state |
+| `--color-glow` | `rgba(240,83,4,0.12)` | Subtle orange glow on hover |
+| `--color-glow-strong` | `rgba(240,83,4,0.25)` | Stronger glow on active/press |
 
 ### Gradients
 
 | Token | Usage |
 |-------|-------|
-| `--gradient-hero` | Background overlay (applied with `mix-blend-mode: multiply`) |
-| `--gradient-glass` | Glass panel fill (20% opacity stops) |
+| `--gradient-hero` | Background overlay (multiply blend over image) |
+| `--gradient-glass` | Static glass panels (low-opacity red-orange stops) |
 
 ### Radius
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--radius-xl` | `32px` | Glass panels, header, footer |
-| `--radius-lg` | `24px` | Cards, large interactive elements |
-| `--radius-md` | `16px` | Buttons, inputs |
-| `--radius-sm` | `8px` | Tags, small elements |
+| `--radius-pill` | `999px` | Header, footer, nav pills, tags |
+| `--radius-xl` | `28px` | Glass panels (ContentBlock) |
+| `--radius-lg` | `20px` | Interactive cards, images |
+| `--radius-md` | `12px` | Mobile nav links, small buttons |
+| `--radius-sm` | `6px` | Tags, small badges |
 
 ### Spacing
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--gap-section` | `12px` | Gap between content blocks |
-| `--padding-page` | `24px` | Page-level padding |
-| `--padding-block` | `48px` | Padding inside glass panels |
-| `--blur-glass` | `40px` | Backdrop blur for frosted effect |
-| `--measure` | `65ch` | Max text width (~65-75 chars/line) |
+| `--gap-section` | `8px` | Between ContentBlocks |
+| `--gap-card` | `8px` | Between cards inside a container |
+| `--padding-page` | `12px` | Page edge padding |
+| `--padding-block` | `36px` | Case study section padding |
+| `--padding-main-x` | `4px` | Main horizontal padding |
+| `--header-height` | `44px` | Fixed header height |
+| `--blur-glass` | `40px` | Backdrop blur intensity |
+| `--measure` | `60ch` | Max text width in ContentBlock |
 
 ## Typography
 
-**Font:** IBM Plex Mono (Google Fonts)  
-**Weights:** 300 (Light), 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold)  
+**Font:** IBM Plex Mono (Google Fonts)
+**Weights:** 300, 400, 500, 600, 700
 **Variable:** `--font-ibm-plex-mono`
 
-### Scale
+| Role | Size | Weight | Tracking |
+|------|------|--------|----------|
+| Display / Name | 24px | 700 | -0.264px |
+| Heading | 20px | 700 | -0.22px |
+| Section title | 18px | 700 | -0.198px |
+| Card title | 16px | 700 | -0.176px |
+| Body | 16px | 300 | -0.176px |
+| Body small | 14px | 300 | -0.154px |
+| Caption / Nav | 12px | 300 | -0.132px |
+| Micro label | 10–11px | 500 | 0.5px |
 
-| Role | Size | Weight | Tracking | Transform |
-|------|------|--------|----------|-----------|
-| Display / Name | 32px | 700 | -0.352px | uppercase |
-| Heading | 24px | 700 | -0.264px | uppercase |
-| Quote | 40px | 400 italic | -0.44px | — |
-| Body | 20px | 300 | -0.22px | — |
-| Body small / Nav | 14–16px | 300 | -0.154 to -0.176px | — |
+## Interactive Pattern
 
-### Rules
+**Static content** = red glass panels (`--gradient-glass`), no border, shimmer.
 
-- Line height: `1.5` for body text, `1.3` for quotes.
-- All text left-aligned. Text across separate blocks shares the same left margin.
-- Max line width controlled by `--measure` inside `ContentBlock`.
+**Interactive content** = dark opaque cards inside glass panels:
+- Resting: `background: var(--color-card-bg)`, `border: 1.5px solid transparent`
+- Hover: `border-color: var(--color-accent)`, subtle glow, 2px lift, image zoom 1.03×
+- Active: `scale(0.99)`, stronger glow
+- Focus-visible: 2px orange outline with 2px offset
+- CTA/arrow: shifts right 4px, color changes to `--color-accent`
 
-## Layout Architecture
+## Glass Block Rules
 
-```
-PageLayout (fixed background + content layer)
-├── Background (fixed, full viewport)
-│   ├── Image (object-fit: cover)
-│   └── Gradient overlay (multiply blend)
-├── Header (border, radius, flex row)
-├── Main (flex column, gap: 12px, full width)
-│   └── ContentBlock (glass panel)
-│       └── ResponsiveContainer (max-width: 65ch)
-└── Footer (border, radius, flex row)
-```
+**Maximum 2 glass ContentBlocks per page.**
 
-### Key principles
+- **Block 1 (required):** Title, subtitle, and minimal metadata (date, company,
+  tags). Compact — no body copy, no cards, no grow.
+- **Block 2 (optional):** Interactive content (card grids, lists). Uses `grow`
+  to fill remaining space.
 
-1. **Main has no max-width.** Glass panels stretch full width. Only the
-   `ResponsiveContainer` inside each `ContentBlock` constrains text width.
-2. **Background gradient uses `mix-blend-mode: multiply`** so the image reads
-   as deep saturated red. Black areas remain black.
-3. **Home variant:** Main gets `padding-top: min(25vh, 200px)` to reveal the
-   background image (eyes) above the frosted blocks.
-4. **Glass panels** use `backdrop-filter: blur(40px)` + gradient-glass fill +
-   subtle 8s gradient animation.
+Pages that need immersive content (Creative Lab) break out of ContentBlock
+entirely — images and gallery sections render directly in the page flow
+without glass wrappers.
 
 ## Component Patterns
 
 ### ContentBlock
+Glass container. Props: `align`, `grow`. When `grow=true`, inner max-width
+is removed so cards can fill the width. Padding: 28px 32px desktop, 24px mobile.
 
-Frosted glass container. Accepts `align` prop (`start` | `center` | `end`).
-Inner content is always left-aligned for consistency; alignment shifts the
-container position, not text direction.
+### Interactive Cards
+Dark opaque with orange border on hover. Image thumbnail (16:9 aspect ratio)
++ text content. Border radius follows inset rule (see visual-language skill).
 
 ### Header
+Logo left, nav right. Desktop nav uses pill-shaped links with orange border
+hover. Mobile: burger button triggers full-screen overlay nav as sibling of
+headerInner (outside backdrop-filter context for correct fixed positioning).
 
-- Logo left, nav right.
-- Nav links: 14px, weight 300, muted. Active: weight 500, full white.
-- Uses `--radius-xl` for border-radius.
+### Mobile Nav
+Rendered as a **sibling** of `.headerInner`, not inside it. This avoids the
+`backdrop-filter` containing block issue. `position: fixed; inset: 0;`
+z-index: 98. `headerInner` uses `position: relative; z-index: 99` to stay
+above the overlay so the close button remains tappable. 6px gap between
+nav items.
 
-### Footer
+### Creative Lab Gallery
+Full-bleed image gallery outside of ContentBlock. No glass wrapper — images
+are the content. Supports aspect ratios: `cinematic` (2.39:1), `wide` (16:9),
+`standard` (4:3), `portrait` (3:4). Featured projects get `--radius-xl` frames.
+Metadata sits in a dark translucent bar below each image. Tags use `--radius-sm`
+with subtle white background. Hover: slow 1.02× zoom (0.6s cubic-bezier).
 
-- Credits right-aligned.
-- Same border/radius treatment as header.
+### ImageViewer
+Rendered via `createPortal(document.body)` with `useState` mount guard for SSR.
+z-index: 9000. Background click closes. Arrow buttons always visible (disabled
+at 20% opacity). Supports `description` text. Counter at bottom.
 
-## Adding New Pages
+## Accessibility
 
-1. Create `src/app/your-page/page.tsx` and `page.module.css`.
-2. Use `<ContentBlock>` for each content section.
-3. Use token classes for typography (don't hard-code font sizes).
-4. Add route to `navItems` in `src/components/Header/Header.tsx`.
+- `:focus-visible` with `--color-accent-muted` outline
+- `aria-label` on icon-only buttons, image triggers, card links
+- `aria-current="page"` on active nav links
+- `aria-expanded` on burger menu
+- `aria-modal` + `role="dialog"` on ImageViewer
+- Keyboard: Enter/Space on interactive cards, Escape closes dialogs
+- Skip-to-content link (sr-only, visible on focus)
+- Semantic roles: banner, navigation, main, contentinfo
+
+## Related Skills
+
+- **visual-language** — Hierarchy, spacing rhythm, radius inset rules,
+  optical alignment, responsive principles
+- **content-design** — Copy guidelines, voice/tone, review checklists
+- **site-architecture** — Page map, component tree, data models, asset pipeline
+- **code-quality** — Build verification protocol, SSR safety, cache recovery,
+  dependency graph, server/client boundaries

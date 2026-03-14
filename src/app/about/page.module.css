@@ -1,18 +1,27 @@
 .heading {
   font-weight: 700;
-  font-size: 24px;
-  letter-spacing: -0.264px;
+  font-size: 20px;
+  letter-spacing: -0.22px;
   text-transform: uppercase;
-  margin: 0 0 1em;
+  margin: 0 0 4px;
   color: var(--color-text);
+}
+
+.subtitle {
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: -0.154px;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--color-text-muted);
 }
 
 .bio p {
   font-weight: 300;
-  font-size: 20px;
-  letter-spacing: -0.22px;
-  line-height: 1.5;
-  margin: 0 0 1em;
+  font-size: 16px;
+  letter-spacing: -0.176px;
+  line-height: 1.6;
+  margin: 0 0 0.8em;
   color: var(--color-text);
 }
 

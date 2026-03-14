@@ -11,7 +11,6 @@ const PROFILE_IMAGE =
 
 type PageLayoutProps = {
   children: React.ReactNode;
-  /** 'home' = main pushed down to reveal eyes; 'default' = full overlay */
   variant?: "home" | "default";
 };
 
@@ -24,26 +23,30 @@ export default function PageLayout({
 
   return (
     <div className={styles.layout}>
-      {/* Full-viewport background image */}
-      <div className={styles.background}>
+      <div className={styles.background} aria-hidden>
         <Image
           src={PROFILE_IMAGE}
-          alt=""
+          alt="Ricardo Hintze — portrait background"
           fill
           className={styles.backgroundImage}
           priority
           unoptimized
         />
-        {/* Gradient overlay - full cover */}
-        <div className={styles.gradientOverlay} aria-hidden />
+        <div className={styles.gradientOverlay} />
       </div>
 
-      {/* Content layer - overlaps background */}
+      <a href="#main-content" className="sr-only">
+        Skip to content
+      </a>
+
+      <Header />
+
       <div
         className={`${styles.contentLayer} ${isHome ? styles.contentLayerHome : ""}`}
       >
-        <Header />
-        <main className={styles.main}>{children}</main>
+        <main id="main-content" className={styles.main} role="main">
+          {children}
+        </main>
         <Footer />
       </div>
     </div>

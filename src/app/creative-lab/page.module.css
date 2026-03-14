@@ -1,26 +1,194 @@
-.heading {
-  font-weight: 700;
-  font-size: 24px;
-  letter-spacing: -0.264px;
-  text-transform: uppercase;
-  margin: 0 0 0.5em;
-  color: var(--color-text);
-}
+/* ── Creative Lab — Immersive gallery layout ── */
 
-.intro {
-  font-weight: 300;
+.title {
+  font-weight: 700;
   font-size: 20px;
   letter-spacing: -0.22px;
-  line-height: 1.5;
-  margin: 0;
+  text-transform: uppercase;
+  margin: 0 0 4px;
   color: var(--color-text);
 }
 
-.placeholder {
+.subtitle {
   font-weight: 300;
-  font-size: 16px;
-  letter-spacing: -0.176px;
+  font-size: 14px;
+  letter-spacing: -0.154px;
   line-height: 1.5;
   margin: 0;
   color: var(--color-text-muted);
+}
+
+/* ── Gallery — outside ContentBlock, full-bleed ── */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+/* ── Image frames ── */
+.imageFrame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: rgba(18, 18, 18, 0.6);
+}
+
+.cinematic {
+  aspect-ratio: 2.39 / 1;
+}
+
+.wide {
+  aspect-ratio: 16 / 9;
+}
+
+.standard {
+  aspect-ratio: 4 / 3;
+}
+
+.portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.imageFrame:hover .image {
+  transform: scale(1.02);
+}
+
+.imageVignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.5) 0%,
+    transparent 40%
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ── Featured project ── */
+.featuredProject {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.featuredProject .imageFrame {
+  border-radius: var(--radius-xl);
+}
+
+/* ── Project metadata ── */
+.projectMeta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  background: rgba(18, 18, 18, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+}
+
+.metaLeft {
+  flex: 1;
+  min-width: 0;
+}
+
+.metaRight {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.projectTitle {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.176px;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.projectDesc {
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: -0.132px;
+  line-height: 1.5;
+  margin: 6px 0 0;
+  color: var(--color-text-muted);
+  max-width: 50ch;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+/* ── Multi-image row ── */
+.imageRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+}
+
+/* ── Regular project ── */
+.project {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.projectHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  background: rgba(18, 18, 18, 0.4);
+  border-radius: var(--radius-lg);
+}
+
+.singleImage .imageFrame {
+  border-radius: var(--radius-xl);
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .projectMeta {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+
+  .projectHeader {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+
+  .imageRow,
+  .imageGrid {
+    grid-template-columns: 1fr;
+  }
 }

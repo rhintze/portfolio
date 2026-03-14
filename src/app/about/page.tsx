@@ -5,27 +5,31 @@ export default function About() {
   return (
     <>
       <ContentBlock>
-        <h2 className={styles.heading}>About</h2>
+        <h1 className={styles.heading}>About</h1>
+        <p className={styles.subtitle}>
+          Born in Mexico. Based in Barcelona.
+        </p>
+      </ContentBlock>
+
+      <ContentBlock>
         <div className={styles.bio}>
           <p>
-            My name is <strong>Ricardo Hintze</strong>. I was born in Mexico and
-            am currently based in Barcelona, Spain.
+            I&apos;m <strong>Ricardo Hintze</strong>, a Product Designer with
+            8+ years of experience shipping SaaS products from concept to launch.
           </p>
           <p>
-            I studied Graphic Design and began my career as a Product Designer
-            in 2016. Initially drawn to coding user interfaces, I started
-            learning about user experience early on, which helped me enter the
-            industry.
+            I studied Graphic Design and discovered UX early — starting with
+            coding interfaces, then moving into strategy, research, and systems
+            thinking.
           </p>
           <p>
-            I&apos;ve worked for companies such as Softtek, General Electric,
-            iTexico, BuildFire, and am currently with the German website builder
-            Jimdo.
+            I&apos;ve worked across Softtek, General Electric, iTexico,
+            BuildFire, and currently Jimdo — where I help shape AI-first
+            experiences for solopreneurs.
           </p>
           <p>
-            In addition to my professional work, I am always engaged in creative
-            projects on the side, particularly in filmmaking and 3D animation. I
-            also have a keen interest in drawing and photography.
+            Outside of work, I make films, experiment with 3D animation, draw,
+            and shoot photos.
           </p>
         </div>
       </ContentBlock>
