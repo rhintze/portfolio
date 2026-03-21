@@ -7,17 +7,16 @@ export default function Home() {
     <>
       <ContentBlock>
         <h1 className={styles.headline}>
-          Designing technology people can actually understand.
+          Designing technology people understand.
         </h1>
         <div className={styles.bio}>
           <p className={styles.body}>
-            I&apos;m Ricardo Hintze, a Senior Product Designer with 8+ years
-            building SaaS products.
+            8+ years leading design for SaaS products, from early concept
+            through launch and iteration.
           </p>
           <p className={styles.body}>
-            I focus on creating tools that are clear, trustworthy, and genuinely
-            useful — products that respect people&apos;s time, attention, and
-            privacy.
+            Currently at Jimdo, designing AI-first tools that help solopreneurs
+            run their businesses. No jargon. No unnecessary complexity.
           </p>
         </div>
         <div className={styles.meta}>
@@ -41,9 +40,10 @@ export default function Home() {
           <div className={styles.cardContent}>
             <span className={styles.cardLabel}>Case Studies</span>
             <div className={styles.cardBody}>
-              <h2 className={styles.cardTitle}>Product Design</h2>
+              <h2 className={styles.cardTitle}>Work that ships</h2>
               <p className={styles.cardDesc}>
-                Research-driven product design from concept to launch.
+                Research-driven product design. From first principles to live
+                product.
               </p>
             </div>
             <span className={styles.cardArrow} aria-hidden>
@@ -63,7 +63,7 @@ export default function Home() {
             <div className={styles.cardBody}>
               <h2 className={styles.cardTitle}>Personal Projects</h2>
               <p className={styles.cardDesc}>
-                Animation, filmmaking, photography, and visual experiments.
+                3D animation, analog photography, film.
               </p>
             </div>
             <span className={styles.cardArrow} aria-hidden>
@@ -113,7 +113,7 @@ export default function Home() {
                 Reduce complexity relentlessly.
               </li>
               <li className={styles.principle}>Design with integrity.</li>
-              <li className={styles.principle}>Craft matters.</li>
+              <li className={styles.principle}>Details compound.</li>
             </ul>
           </div>
         </div>

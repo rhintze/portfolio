@@ -1,34 +1,38 @@
-.heading {
+/* Hero — matches home page title + supporting line rhythm */
+.headline {
   font-weight: 700;
-  font-size: 20px;
-  letter-spacing: -0.22px;
+  font-size: 24px;
+  letter-spacing: -0.264px;
   text-transform: uppercase;
-  margin: 0 0 4px;
+  margin: 0;
   color: var(--color-text);
+  max-width: var(--measure);
 }
 
-.subtitle {
+.tagline {
   font-weight: 300;
   font-size: 14px;
   letter-spacing: -0.154px;
-  line-height: 1.5;
-  margin: 0;
+  line-height: 1.6;
+  margin: 32px 0 0;
+  color: var(--color-text-muted);
+  max-width: var(--measure);
+}
+
+/* Prose — same body treatment as home bio */
+.prose {
+  max-width: var(--measure);
+}
+
+.body {
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: -0.154px;
+  line-height: 1.6;
+  margin: 0 0 0.6em;
   color: var(--color-text-muted);
 }
 
-.bio p {
-  font-weight: 300;
-  font-size: 16px;
-  letter-spacing: -0.176px;
-  line-height: 1.6;
-  margin: 0 0 0.8em;
-  color: var(--color-text);
-}
-
-.bio p:last-child {
+.body:last-child {
   margin-bottom: 0;
-}
-
-.bio strong {
-  font-weight: 600;
 }
