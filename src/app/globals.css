@@ -13,6 +13,11 @@
   /* Interactive surface */
   --color-card-bg: rgba(18, 18, 18, 0.35);
   --color-card-bg-hover: rgba(24, 24, 24, 0.45);
+
+  /* Narrative surfaces (case study) */
+  --s-warm: rgba(28, 10, 2, 0.80);
+  --s-black: rgba(12, 12, 12, 0.95);
+  --s-payoff: rgba(38, 14, 3, 0.85);
   --color-glow: rgba(240, 83, 4, 0.12);
   --color-glow-strong: rgba(240, 83, 4, 0.25);
 

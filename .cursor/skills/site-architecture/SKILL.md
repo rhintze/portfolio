@@ -16,7 +16,7 @@ description: >-
 | `/` | `src/app/page.tsx` | Home — hero, feature cards, experience/philosophy, capabilities | ContentBlock, Link |
 | `/about` | `src/app/about/page.tsx` | Bio and background | ContentBlock |
 | `/case-studies` | `src/app/case-studies/page.tsx` | Case study index — full-width cards with placeholders | ContentBlock, Link |
-| `/case-studies/[slug]` | `src/app/case-studies/[slug]/page.tsx` | Case study detail — multi-block editorial layout | CaseStudyContainer, QuoteBlock, CaseStudySection, ScreenshotGroup, MetricsBlock, SectionDivider, ImageViewer, FadeImage |
+| `/case-studies/[slug]` | `src/app/case-studies/[slug]/page.tsx` | Case study detail — narrative surface layout | MetricsBlock, ImageViewer, FadeImage |
 | `/creative-lab` | `src/app/creative-lab/page.tsx` | Personal projects — immersive full-bleed gallery | ContentBlock (title only), Image |
 
 ## Component Tree
@@ -47,11 +47,19 @@ Home page sections (outside ContentBlock):
 └── Each section renders directly in page flow
 
 Case study detail layout:
-├── CaseStudyContainer (glass) — quote + title section with inline image
-├── CaseStudyContainer (glass) — My Role section
-├── Screenshot section (dark frosted container)
-│   └── ScreenshotGroup with FadeImage
-├── MetricsBlock (standalone glass cards)
+├── .page wrapper (flex column, gap 8px)
+│   ├── Hero section (s-warm) — quote, title, tags, phone screens
+│   ├── Context section (s-warm) — 2-column: product + role
+│   ├── Section header (The Challenge)
+│   ├── Challenge cards (3 bare s-black cards)
+│   ├── Section header (How We Learned)
+│   ├── Research section (s-warm) — 2-column: prose + stat cards
+│   ├── Section header (Key Decisions)
+│   ├── Decision sections (5× s-black, decision-grid layout)
+│   ├── The Flow carousel (s-black-clip, overflow:hidden)
+│   ├── Section header (Impact)
+│   ├── MetricsBlock (4 s-payoff cards)
+│   └── Closing section (s-warm) — screen, copy, final quote
 └── ImageViewer (portal on document.body, z-9000)
 ```
 

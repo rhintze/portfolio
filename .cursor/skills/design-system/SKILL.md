@@ -34,6 +34,17 @@ spacing, or font stacks. Always reference tokens.
 | `--color-glow` | `rgba(240,83,4,0.12)` | Subtle orange glow on hover |
 | `--color-glow-strong` | `rgba(240,83,4,0.25)` | Stronger glow on active/press |
 
+### Narrative Surfaces (Case Study)
+
+Surfaces assigned by narrative chapter, creating a visual rhythm that mirrors
+the story arc. No backdrop-filter — FadeImage is safe inside all surfaces.
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--s-warm` | `rgba(28,10,2,0.80)` | Opening, informational, and closing chapters |
+| `--s-black` | `rgba(12,12,12,0.95)` | Decisions, focused work chapters |
+| `--s-payoff` | `rgba(38,14,3,0.85)` | Impact metrics, resolution chapters |
+
 ### Gradients
 
 | Token | Usage |
@@ -84,19 +95,39 @@ spacing, or font stacks. Always reference tokens.
 
 ## Container Backgrounds
 
-Two distinct surface treatments:
+### Home / General Pages — Glass Surfaces
+
+Two distinct surface treatments on general pages:
 
 **Read-only containers** = Red glass gradient (`--gradient-glass`):
 - `backdrop-filter: blur(var(--blur-glass))`
 - `background-image: var(--gradient-glass)` with shimmer animation
-- Used for: ContentBlock, glass sections, metric cards
+- Used for: ContentBlock, glass sections on home page
 
 **Clickable containers** = Dark frosted (`--color-card-bg`):
 - `backdrop-filter: blur(var(--blur-glass))`
 - `background: var(--color-card-bg)` (semi-transparent dark gray)
-- Used for: navigation cards, case study cards, screenshot containers
+- Used for: navigation cards, case study index cards
 
 Both use the same blur intensity — only the background color differs.
+
+### Case Study Detail — Narrative Surface Rhythm
+
+Case study pages use the portfolio's glass/frosted surfaces with a two-tone
+rhythm that separates informational content from focused decision content:
+
+**Glass panels** (opening, context, research, metrics, closing):
+- Same treatment as ContentBlock: `--gradient-glass` + backdrop-filter + shimmer
+- Used for narrative context, research evidence, impact, and resolution
+
+**Dark frosted panels** (decisions, challenge cards, carousel):
+- Same treatment as interactive cards: `--color-card-bg` + backdrop-filter
+- No hover states (read-only), no border at rest
+- Creates visual contrast against glass sections for focused reading
+
+**Bare elements** — challenge cards, section headers:
+- Challenge cards use dark frosted individually (no outer wrapper)
+- Section headers use centered divider lines with a label between
 
 ## Interactive Pattern
 
@@ -119,14 +150,18 @@ Cards use three semantic content groups with clear spacing:
 Card thumbnails are inset 4px from the card edge with a calculated inner
 radius: `margin: 4px 4px 0`, `border-radius: 24px` (28px outer - 4px gap).
 
-## Glass Block Rules
+## Surface Block Rules
 
-There is **no maximum** on the number of glass ContentBlocks or sections
-per page. Each section type uses its appropriate surface treatment.
+There is **no maximum** on the number of surface sections per page. Each
+section type uses its appropriate surface treatment.
 
-Pages use ContentBlock for header/hero text, then render additional sections
-(glass sections, card grids, screenshot containers) directly in the page
-flow outside of ContentBlock.
+Home / general pages use ContentBlock for header/hero text, then render
+additional sections directly in the page flow.
+
+Case study pages use narrative surfaces (`s-warm`, `s-black`, `s-payoff`)
+with a `.page` wrapper (`display: flex; flex-direction: column; gap: 8px`).
+Each section is a `<section>` with a surface class — no wrapper component.
+Content is constrained by a `.prose` container (`max-width: 900px; margin-inline: auto`).
 
 ## Component Patterns
 
@@ -174,13 +209,31 @@ starts at `opacity: 0`, transitions to 1 on load. No shimmer wrapper to
 avoid layout offset issues.
 
 ### ScreenshotGroup
-Flex layout for phone screenshots. Used both inside CaseStudySection (as
-visual column) and as standalone sections outside containers. When standalone,
-wrap in a dark frosted container for visual grouping. Gap: 20px between items.
+Flex layout for phone screenshots. Used on general pages for phone screenshot
+groups. Gap: 20px between items. Not used on case study detail — phone frames
+are rendered inline with narrative surface CSS.
 
 ### MetricsBlock
-Standalone section outside CaseStudyContainer. Cards use glass gradient
-background with blur. Side-by-side columns on desktop, stacking on mobile.
+Standalone section for impact numbers. Cards use `--s-payoff` surface
+(narrative payoff tone). 4-column grid on desktop, 2-column on tablet,
+stacking on small mobile.
+
+### Case Study Section Header
+Centered label with horizontal divider lines on each side:
+`display: flex; align-items: center; gap: 16px;` with `::before`/`::after`
+pseudo-elements as 1px border lines. Used between major narrative chapters.
+
+### Case Study Decision Grid
+Two-column grid (`1fr 1fr`, `gap: 48px`, `max-width: 900px`,
+`margin-inline: auto`). Text always left, visual always right. Decisions
+without images leave the right column empty (intentional whitespace).
+Collapses to single column at 720px.
+
+### Case Study Carousel (The Flow)
+Horizontal phone screenshot carousel inside `s-black-clip` surface
+(`overflow: hidden`). 6 slides visible on desktop (no scrolling), responsive
+breakpoints reduce visible count. Prev/next buttons, dot indicators, and
+touch swipe support. Each slide: phone frame + step number + caption.
 
 ## Accessibility
 
